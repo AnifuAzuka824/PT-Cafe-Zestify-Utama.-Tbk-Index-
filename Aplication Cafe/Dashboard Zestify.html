@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Zestify Café — Premium Coffee & Fine Dining. Menu berkualitas tinggi, bahan terbaik, dan pembayaran digital modern." />
+    <title>Zestify Café | Home Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/Main.css" />
+    <link rel="stylesheet" href="CSS/Menu.css" />
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+    <h1>ZESTIFY CAFÉ</h1>
+    <ul>
+        <li><a href="Dashboard Zestify.html" class="active">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="Payment zestify.html">Checkout</a></li>
+        <li><a href="#portfolio">Portofolio</a></li>
+        <li><a href="Inventory Zestify.html">Inventori</a></li>
+        <li><a href="Akun Zestify.html">Akun</a></li>
+        <li><a href="Akun Zestify.html#cs">Customer Service</a></li>
+    </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+    <h2>Refined Indulgence</h2>
+    <p>Menu berkualitas tinggi, bahan terbaik, serta kenyamanan pembayaran digital modern.<br />Nikmati pengalaman kafe premium dengan sentuhan autentik.</p>
+</section>
+
+<!-- ===== MENU ===== -->
+<section id="menu">
+    <div class="section-title">Signature Menu</div>
+
+    <!-- Category Tabs — diisi oleh Menu.js -->
+    <div class="menu-tabs" id="menu-tabs"></div>
+
+    <!-- Menu Grid — diisi oleh Menu.js -->
+    <div class="menu-grid" id="menu-container"></div>
+
+    <!-- Cart Summary Bar -->
+    <div id="cartSummary" class="cart-summary" style="display:none;">
+        <div class="cart-summary-info">
+            <i class="fas fa-shopping-cart" style="color:var(--gold);margin-right:6px;"></i>
+            <span id="cartCount">0</span> item &nbsp;|&nbsp; Total: <span id="cartTotalPrice">Rp0</span>
+        </div>
+        <button id="goToPaymentBtn" class="btn-payment-redirect">
+            Proses Pembayaran <i class="fas fa-arrow-right" style="margin-left:6px;"></i>
+        </button>
+    </div>
+</section>
+
+<!-- ===== PORTFOLIO ===== -->
+<section id="portfolio">
+    <div class="section-title">Portofolio Perusahaan</div>
+    <div class="company-story">
+        <p>PT Zestify Café Utama.Tbk didirikan pada tahun 2027 oleh pecinta kuliner, barista profesional, Founder dan Investor. Kami menyediakan fine-casual dining dengan harga terjangkau, di mana setiap menu disesuaikan dengan selera lokal &amp; internasional.</p>
+        <br />
+        <p><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> Cabang utama di Jakarta, Bali, Kudus, &amp; Surabaya telah melayani 15.000+ pelanggan, bekerja sama dengan 30+ supplier lokal, dan meraih penghargaan <em>"Best Emerging Café 2028"</em> dari Culinary Digest.</p>
+    </div>
+    <div class="portfolio-grid">
+        <div class="porto-card">
+            <i class="fas fa-trophy"></i>
+            <h4>Penghargaan</h4>
+            <p>Indonesia Coffee Champion 2027<br />Best Dessert Innovation 2026</p>
+        </div>
+        <div class="porto-card">
+            <i class="fas fa-handshake"></i>
+            <h4>Mitra Strategis</h4>
+            <p>Farm to Table, Ubud Organik, Kopi Nusantara, dan 25+ UMKM lokal terpercaya.</p>
+        </div>
+        <div class="porto-card">
+            <i class="fas fa-chart-line"></i>
+            <h4>Ekspansi</h4>
+            <p>4 cabang beroperasi di Surabaya, Jakarta, Kudus &amp; Bali. Target 8 cabang tahun 2029.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="premium-footer">
+    <div class="footer-grid">
+
+        <div class="footer-col brand-col">
+            <div class="footer-logo">ZESTIFY <span>CAFÉ</span></div>
+            <p class="footer-desc">Premium Coffee &amp; Fine Dining<br />Kualitas terbaik, rasa autentik.</p>
+            <div class="footer-social">
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">I</div>
+                        <div class="social-flip-back"><i class="fab fa-instagram"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Instagram</div>
+                </div>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">F</div>
+                        <div class="social-flip-back"><i class="fab fa-facebook-f"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Facebook</div>
+                </div>
+                <a href="https://www.linkedin.com/in/muhamad-anif-azka-raharja-18b52139b/?isSelfProfile=true" target="_blank" rel="noopener noreferrer" class="social-link-wrapper">
+                    <div class="social-flip-wrapper">
+                        <div class="social-flip-inner">
+                            <div class="social-flip-front">L</div>
+                            <div class="social-flip-back"><i class="fab fa-linkedin-in"></i></div>
+                        </div>
+                        <div class="social-flip-tooltip">LinkedIn</div>
+                    </div>
+                </a>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">Y</div>
+                        <div class="social-flip-back"><i class="fab fa-youtube"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">YouTube</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-col contact-col">
+            <h4>Hubungi Kami</h4>
+            <a href="mailto:Cafezestify@gmail.com" class="contact-link">
+                <i class="fas fa-envelope"></i><span>Cafezestify@gmail.com</span>
+            </a>
+            <a href="tel:+6281235445015" class="contact-link">
+                <i class="fas fa-phone-alt"></i><span>+62 812-354-450-15</span>
+            </a>
+            <div class="contact-link">
+                <i class="fas fa-map-pin"></i><span>Jl. Sudirman No. 88, Jakarta</span>
+            </div>
+        </div>
+
+        <div class="footer-col hours-col">
+            <h4>Jam Buka</h4>
+            <ul>
+                <li><span>Senin – Rabu</span><span>06:30 – 15:40</span></li>
+                <li><span>Kamis – Sabtu</span><span>14:00 – 23:00</span></li>
+                <li class="closed"><span>Minggu</span><span>Libur</span></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2027 <strong>Cafe Zestify</strong> &middot; All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart" style="color:var(--gold);"></i> for coffee lovers.</p>
+    </div>
+</footer>
+
+<div id="globalToast" class="toast"></div>
+
+<script src="JS/Cart.js"></script>
+<script src="JS/Menu.js"></script>
+</body>
+</html>

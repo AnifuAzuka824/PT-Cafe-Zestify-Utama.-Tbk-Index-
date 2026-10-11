@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Masuk atau daftar akun Zestify Café untuk menikmati layanan VIP member." />
+    <title>Zestify Café | Masuk & Daftar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/Main.css" />
+    <style>
+        body { min-height: 100vh; }
+        .password-wrapper { position: relative; }
+        .password-wrapper input { padding-right: 48px; }
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover { color: var(--gold); }
+        .auth-back {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .auth-back:hover { color: var(--gold); }
+        .form-panel { display: none; }
+        .form-panel.active { display: flex; flex-direction: column; gap: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="auth-page">
+    <div class="auth-card">
+
+        <div class="auth-logo">ZESTIFY <span>CAFÉ</span></div>
+        <p class="auth-subtitle">Premium Coffee &amp; Fine Dining · Member VIP</p>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin" type="button">Masuk</button>
+            <button class="auth-tab"        id="tabRegister" type="button">Daftar</button>
+        </div>
+
+        <!-- ===== LOGIN PANEL ===== -->
+        <div class="form-panel active" id="loginPanel">
+            <div class="form-group">
+                <label for="lgEmail">Alamat Email</label>
+                <input type="email" id="lgEmail" placeholder="contoh@email.com" autocomplete="email" />
+                <span class="form-error" id="lgEmailErr">Format email tidak valid.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="lgPass">Kata Sandi</label>
+                <div class="password-wrapper">
+                    <input type="password" id="lgPass" placeholder="Minimal 6 karakter" autocomplete="current-password" />
+                    <button type="button" class="toggle-password" data-target="lgPass" aria-label="Tampilkan password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span class="form-error" id="lgPassErr">Password minimal 6 karakter.</span>
+            </div>
+
+            <a href="#" class="forgot-link">Lupa kata sandi?</a>
+
+            <button type="button" class="btn-auth" id="btnLogin">
+                <i class="fas fa-sign-in-alt"></i>&nbsp; Masuk Sekarang
+            </button>
+
+            <p class="auth-footer-text">
+                Belum punya akun?
+                <a href="#" id="switchToRegister">Daftar di sini</a>
+            </p>
+        </div>
+
+        <!-- ===== REGISTER PANEL ===== -->
+        <div class="form-panel" id="registerPanel">
+            <div class="form-group">
+                <label for="rgName">Nama Lengkap</label>
+                <input type="text" id="rgName" placeholder="Nama Anda" autocomplete="name" />
+                <span class="form-error" id="rgNameErr">Nama tidak boleh kosong.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="rgEmail">Alamat Email</label>
+                <input type="email" id="rgEmail" placeholder="contoh@email.com" autocomplete="email" />
+                <span class="form-error" id="rgEmailErr">Format email tidak valid.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="rgPass">Kata Sandi</label>
+                <div class="password-wrapper">
+                    <input type="password" id="rgPass" placeholder="Minimal 6 karakter" autocomplete="new-password" />
+                    <button type="button" class="toggle-password" data-target="rgPass" aria-label="Tampilkan password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span class="form-error" id="rgPassErr">Password minimal 6 karakter.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="rgPassConfirm">Konfirmasi Kata Sandi</label>
+                <div class="password-wrapper">
+                    <input type="password" id="rgPassConfirm" placeholder="Ulangi kata sandi" autocomplete="new-password" />
+                    <button type="button" class="toggle-password" data-target="rgPassConfirm" aria-label="Tampilkan password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span class="form-error" id="rgConfirmErr">Kata sandi tidak cocok.</span>
+            </div>
+
+            <button type="button" class="btn-auth" id="btnRegister">
+                <i class="fas fa-user-plus"></i>&nbsp; Buat Akun
+            </button>
+
+            <p class="auth-footer-text">
+                Sudah punya akun?
+                <a href="#" id="switchToLogin">Masuk di sini</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="globalToast" class="toast"></div>
+
+<script src="JS/Cart.js"></script>
+<script>
+
+var EMAIL_RE  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+var USERS_KEY = 'zestifyUsers';
+
+/* ─── Tab switching ──────────────────────────────────────── */
+document.getElementById('tabLogin').addEventListener('click', function () { switchTab('login'); });
+document.getElementById('tabRegister').addEventListener('click', function () { switchTab('register'); });
+document.getElementById('switchToRegister').addEventListener('click', function (e) { e.preventDefault(); switchTab('register'); });
+document.getElementById('switchToLogin').addEventListener('click', function (e) { e.preventDefault(); switchTab('login'); });
+
+function switchTab(tab) {
+    var isLogin = tab === 'login';
+    document.getElementById('loginPanel').classList.toggle('active', isLogin);
+    document.getElementById('registerPanel').classList.toggle('active', !isLogin);
+    document.getElementById('tabLogin').classList.toggle('active', isLogin);
+    document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+    clearAllErrors();
+}
+
+/* ─── Password visibility toggle ────────────────────────── */
+document.querySelectorAll('.toggle-password').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        var target = document.getElementById(this.getAttribute('data-target'));
+        if (!target) return;
+        var isText = target.type === 'text';
+        target.type = isText ? 'password' : 'text';
+        this.querySelector('i').className = isText ? 'fas fa-eye' : 'fas fa-eye-slash';
+    });
+});
+
+/* ─── Login ──────────────────────────────────────────────── */
+document.getElementById('btnLogin').addEventListener('click', function () {
+    clearAllErrors();
+    var email = (document.getElementById('lgEmail').value || '').trim();
+    var pass  = (document.getElementById('lgPass').value  || '');
+    var valid = true;
+
+    if (!EMAIL_RE.test(email)) { showError('lgEmailErr'); valid = false; }
+    if (pass.length < 6)       { showError('lgPassErr');  valid = false; }
+    if (!valid) return;
+
+    /* Demo: accept any valid email + pass >= 6 chars */
+    var users = loadUsers();
+    var existing = users.find(function (u) { return u.email === email; });
+    if (existing && existing.pass !== btoa(pass)) {
+        showToast('Kata sandi salah.', 'fa-lock');
+        return;
+    }
+
+    sessionStorage.setItem('zestifyUser', email);
+    showToast('Selamat datang kembali, ' + email.split('@')[0] + '!', 'fa-user-check');
+    setTimeout(function () { window.location.href = 'Dashboard Zestify.html'; }, 1400);
+});
+
+/* ─── Register ───────────────────────────────────────────── */
+document.getElementById('btnRegister').addEventListener('click', function () {
+    clearAllErrors();
+    var name    = (document.getElementById('rgName').value        || '').trim();
+    var email   = (document.getElementById('rgEmail').value       || '').trim();
+    var pass    = (document.getElementById('rgPass').value        || '');
+    var confirm = (document.getElementById('rgPassConfirm').value || '');
+    var valid   = true;
+
+    if (!name)               { showError('rgNameErr');    valid = false; }
+    if (!EMAIL_RE.test(email)){ showError('rgEmailErr');  valid = false; }
+    if (pass.length < 6)     { showError('rgPassErr');    valid = false; }
+    if (pass !== confirm)    { showError('rgConfirmErr'); valid = false; }
+    if (!valid) return;
+
+    var users = loadUsers();
+    if (users.find(function (u) { return u.email === email; })) {
+        showToast('Email sudah terdaftar. Silakan masuk.', 'fa-exclamation-circle');
+        switchTab('login');
+        return;
+    }
+
+    users.push({ name: name, email: email, pass: btoa(pass) });
+    saveUsers(users);
+    sessionStorage.setItem('zestifyUser', email);
+    showToast('Akun berhasil dibuat! Selamat datang, ' + name + ' 🎉', 'fa-party-horn');
+    setTimeout(function () { window.location.href = 'Dashboard Zestify.html'; }, 1600);
+});
+
+/* ─── Helpers ────────────────────────────────────────────── */
+function showError(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.add('show');
+    var input = el && el.previousElementSibling;
+    if (input && input.tagName === 'INPUT') input.classList.add('error');
+}
+
+function clearAllErrors() {
+    document.querySelectorAll('.form-error.show').forEach(function (el) {
+        el.classList.remove('show');
+    });
+    document.querySelectorAll('input.error').forEach(function (el) {
+        el.classList.remove('error');
+    });
+}
+
+function loadUsers() {
+    try {
+        var raw = localStorage.getItem(USERS_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+}
+
+function saveUsers(users) {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+/* Clear error on input */
+document.querySelectorAll('.auth-card input').forEach(function (input) {
+    input.addEventListener('input', function () {
+        this.classList.remove('error');
+        var wrapper = this.closest('.form-group');
+        if (wrapper) {
+            wrapper.querySelectorAll('.form-error.show').forEach(function (el) {
+                el.classList.remove('show');
+            });
+        }
+    });
+});
+
+/* Enter key support */
+document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var loginActive = document.getElementById('loginPanel').classList.contains('active');
+    if (loginActive) document.getElementById('btnLogin').click();
+    else             document.getElementById('btnRegister').click();
+});
+</script>
+</body>
+</html>

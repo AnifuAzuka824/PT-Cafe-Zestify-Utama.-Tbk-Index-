@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Zestify Café — Login akun VIP, daftar member baru, dan hubungi Customer Service kami." />
+    <title>Zestify Café | Log In &amp; Customer Service</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/Main.css" />
+    <link rel="stylesheet" href="CSS/Menu.css" />
+    <style>
+        .akun-hero {
+            text-align: center;
+            padding: 70px 20px 60px;
+            background:
+                linear-gradient(107deg, #000000e0, #0a0a0ae0),
+                url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600') center/cover no-repeat;
+            background-blend-mode: overlay;
+        }
+        .akun-hero h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        .akun-hero p { font-size: 1rem; color: #aaa; max-width: 500px; margin: 0 auto; }
+
+        /* ── Two-column layout login + CS on desktop ─ */
+        .akun-body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .akun-row {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .akun-col {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* Divider between columns on desktop */
+        .akun-col:first-child {
+            border-right: 1px solid #1e1e1e;
+            padding-right: 40px;
+        }
+
+        /* ── Section labels ───────────────────────── */
+        .akun-section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .akun-section-label i {
+            font-size: 1.5rem;
+            color: var(--gold);
+            width: 40px;
+            height: 40px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .akun-section-label h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .akun-section-label p { font-size: 0.82rem; color: #555; margin-top: 2px; }
+
+        .pw-wrap { position: relative; }
+        .pw-wrap input { padding-right: 50px; }
+        .pw-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .pw-toggle:hover { color: var(--gold); }
+
+        .register-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(212,175,55,0.06);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .register-banner p { font-size: 0.88rem; color: #aaa; }
+        .btn-register-link {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-register-link:hover { background: var(--gold); color: #0a0a0a; }
+
+        /* ── Section divider line on mobile ──────── */
+        @media (max-width: 760px) {
+            .akun-col:first-child {
+                border-right: none;
+                border-bottom: 1px solid #1e1e1e;
+                padding-right: 0;
+                padding-bottom: 40px;
+            }
+            .akun-hero h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+    <h1>ZESTIFY CAFÉ</h1>
+    <ul>
+        <li><a href="Dashboard Zestify.html">Home</a></li>
+        <li><a href="Dashboard Zestify.html#menu">Menu</a></li>
+        <li><a href="Payment zestify.html">Checkout</a></li>
+        <li><a href="Dashboard Zestify.html#portfolio">Portofolio</a></li>
+        <li><a href="Inventory Zestify.html">Inventori</a></li>
+        <li><a href="Akun Zestify.html" class="active">Akun</a></li>
+        <li><a href="#cs">Customer Service</a></li>
+    </ul>
+</nav>
+
+<!-- ===== PAGE BANNER ===== -->
+<div class="akun-hero">
+    <h2>Akun &amp; Layanan Pelanggan</h2>
+    <p>Masuk ke akun VIP Anda atau hubungi tim kami untuk bantuan, reservasi, dan pertanyaan.</p>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<section id="login" style="padding-top:64px;padding-bottom:64px;background:#0c0c0c;border-top:1px solid #1e1e1e;">
+    <div class="akun-body">
+        <div class="akun-row">
+            <div class="akun-col">
+                <div class="akun-section-label">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <h3>Login Akun VIP</h3>
+                        <p>Akses eksklusif member Zestify Café</p>
+                    </div>
+                </div>
+
+                <div class="login-form" style="max-width:100%;">
+                    <input type="email" id="loginEmail" placeholder="Alamat Email" autocomplete="email" required />
+                    <div class="pw-wrap">
+                        <input type="password" id="loginPassword" placeholder="Kata Sandi" autocomplete="current-password" required />
+                        <button type="button" class="pw-toggle" id="toggleLoginPw" aria-label="Tampilkan password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button id="loginBtn" type="button">
+                        <i class="fas fa-sign-in-alt" style="margin-right:6px;"></i> Masuk ke Zestify
+                    </button>
+                </div>
+
+                <div class="register-banner">
+                    <p>Belum memiliki akun Zestify?</p>
+                    <a href="Log In Zestify.html" class="btn-register-link">
+                        <i class="fas fa-user-plus" style="margin-right:6px;"></i> Daftar Sekarang
+                    </a>
+                </div>
+            </div>
+
+            <div class="akun-col" id="cs">
+                <div class="akun-section-label">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <h3>Customer Service</h3>
+                        <p>Pertanyaan, reservasi, dan pesan khusus</p>
+                    </div>
+                </div>
+
+                <div class="cs-form" style="max-width:100%;">
+                    <input type="text" id="csName" placeholder="Nama Lengkap Anda" required />
+                    <input type="email" id="csEmail" placeholder="Alamat Email" required />
+                    <textarea id="csMessage" rows="5"
+                        placeholder="Tuliskan pernyataan, pemesanan khusus, atau reservasi meja Anda di sini..."
+                        style="border-radius:20px;"></textarea>
+                    <button id="sendCsBtn" type="button">
+                        <i class="fas fa-paper-plane" style="margin-right:6px;"></i> Kirim Pesan
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="premium-footer">
+    <div class="footer-grid">
+
+        <div class="footer-col brand-col">
+            <div class="footer-logo">ZESTIFY <span>CAFÉ</span></div>
+            <p class="footer-desc">Premium Coffee &amp; Fine Dining<br />Kualitas terbaik, rasa autentik.</p>
+            <div class="footer-social">
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">I</div>
+                        <div class="social-flip-back"><i class="fab fa-instagram"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Instagram</div>
+                </div>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">F</div>
+                        <div class="social-flip-back"><i class="fab fa-facebook-f"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Facebook</div>
+                </div>
+                <a href="https://www.linkedin.com/in/muhamad-anif-azka-raharja-18b52139b/?isSelfProfile=true" target="_blank" rel="noopener noreferrer" class="social-link-wrapper">
+                    <div class="social-flip-wrapper">
+                        <div class="social-flip-inner">
+                            <div class="social-flip-front">L</div>
+                            <div class="social-flip-back"><i class="fab fa-linkedin-in"></i></div>
+                        </div>
+                        <div class="social-flip-tooltip">LinkedIn</div>
+                    </div>
+                </a>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">Y</div>
+                        <div class="social-flip-back"><i class="fab fa-youtube"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">YouTube</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-col contact-col">
+            <h4>Hubungi Kami</h4>
+            <a href="mailto:Cafezestify@gmail.com" class="contact-link">
+                <i class="fas fa-envelope"></i><span>Cafezestify@gmail.com</span>
+            </a>
+            <a href="tel:+6281235445015" class="contact-link">
+                <i class="fas fa-phone-alt"></i><span>+62 812-354-450-15</span>
+            </a>
+            <div class="contact-link">
+                <i class="fas fa-map-pin"></i><span>Jl. Sudirman No. 88, Jakarta</span>
+            </div>
+        </div>
+
+        <div class="footer-col hours-col">
+            <h4>Jam Buka</h4>
+            <ul>
+                <li><span>Senin – Rabu</span><span>06:30 – 15:40</span></li>
+                <li><span>Kamis – Sabtu</span><span>14:00 – 23:00</span></li>
+                <li class="closed"><span>Minggu</span><span>Libur</span></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2027 <strong>Cafe Zestify</strong> &middot; All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart" style="color:var(--gold);"></i> for coffee lovers.</p>
+    </div>
+</footer>
+
+<div id="globalToast" class="toast"></div>
+
+<script src="JS/Cart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /* ── Password toggle ────────────────────── */
+    var toggleBtn = document.getElementById('toggleLoginPw');
+    var pwInput   = document.getElementById('loginPassword');
+    if (toggleBtn && pwInput) {
+        toggleBtn.addEventListener('click', function () {
+            var isText = pwInput.type === 'text';
+            pwInput.type = isText ? 'password' : 'text';
+            this.querySelector('i').className = isText ? 'fas fa-eye' : 'fas fa-eye-slash';
+        });
+    }
+
+    /* ── Login form ─────────────────────────── */
+    var loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function () {
+            var email = (document.getElementById('loginEmail').value || '').trim();
+            var pass  = document.getElementById('loginPassword').value || '';
+
+            if (!email || !pass) {
+                showToast('Isi email dan password terlebih dahulu.', 'fa-exclamation-circle');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Format email tidak valid.', 'fa-exclamation-circle');
+                return;
+            }
+            if (pass.length < 6) {
+                showToast('Password minimal 6 karakter.', 'fa-exclamation-circle');
+                return;
+            }
+            sessionStorage.setItem('zestifyUser', email);
+            showToast('Selamat datang, ' + email.split('@')[0] + '!', 'fa-user-check');
+            setTimeout(function () {
+                window.location.href = 'Dashboard Zestify.html';
+            }, 1400);
+        });
+    }
+
+    /* ── CS form ────────────────────────────── */
+    var csBtn = document.getElementById('sendCsBtn');
+    if (csBtn) {
+        csBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var name  = (document.getElementById('csName').value    || '').trim();
+            var email = (document.getElementById('csEmail').value   || '').trim();
+            var msg   = (document.getElementById('csMessage').value || '').trim();
+
+            if (!name || !email || !msg) {
+                showToast('Harap lengkapi semua kolom.', 'fa-exclamation-circle');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Format email tidak valid.', 'fa-exclamation-circle');
+                return;
+            }
+            showToast('Pesan terkirim! CS akan balas ke ' + email.split('@')[0], 'fa-check-circle');
+            document.getElementById('csName').value    = '';
+            document.getElementById('csEmail').value   = '';
+            document.getElementById('csMessage').value = '';
+        });
+    }
+
+    /* ── Smooth scroll ──────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            var hash = this.getAttribute('href');
+            if (!hash || hash.length < 2) return;
+            var target = document.querySelector(hash);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    /* ── Active nav ────────────────────────── */
+    var path = window.location.pathname.split('/').pop();
+    document.querySelectorAll('nav ul li a').forEach(function (a) {
+        var href = (a.getAttribute('href') || '').split('/').pop().split('#')[0];
+        if (href && href === path) a.classList.add('active');
+    });
+});
+</script>
+</body>
+</html>

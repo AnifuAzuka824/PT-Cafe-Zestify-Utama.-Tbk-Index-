@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Zestify Café — Inventori stok barang masuk/keluar dan laporan traffic bulanan." />
+    <title>Zestify Café | Inventori &amp; Traffic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/Main.css" />
+    <!-- Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        /* Inventory-page minor tweaks */
+        #inventory-section { padding-top: 48px; }
+        canvas { max-height: 320px; }
+
+        /* Current stock mini-table */
+        .stock-overview {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .stock-overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stock-overview-header h3 { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+        .stock-overview-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0;
+        }
+
+        .stock-mini-card {
+            padding: 14px 18px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .stock-mini-card:hover { background: rgba(255,255,255,0.02); }
+
+        .stock-mini-name {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stock-mini-qty {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stock-mini-qty.low { color: #f1c40f; }
+        .stock-mini-qty.critical { color: var(--red); }
+
+        @media (max-width: 600px) {
+            .stock-overview-body { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+    <h1>ZESTIFY CAFÉ</h1>
+    <ul>
+        <li><a href="Dashboard Zestify.html">Home</a></li>
+        <li><a href="Dashboard Zestify.html#menu">Menu</a></li>
+        <li><a href="Payment zestify.html">Checkout</a></li>
+        <li><a href="Inventory Zestify.html" class="active">Inventori</a></li>
+        <li><a href="Akun Zestify.html">Akun</a></li>
+        <li><a href="Akun Zestify.html#cs">Customer Service</a></li>
+    </ul>
+</nav>
+
+<!-- ===== MAIN SECTION ===== -->
+<section id="inventory-section">
+    <div class="section-title">Inventori &amp; Traffic Bulanan</div>
+
+    <!-- ─── Stats cards ─────────────────────────────────── -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+            <div class="stat-value" id="statIn">—</div>
+            <div class="stat-label">Total Penerimaan</div>
+            <div class="stat-trend up"><i class="fas fa-arrow-up"></i> Dari semua transaksi</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-dolly"></i></div>
+            <div class="stat-value" id="statOut">—</div>
+            <div class="stat-label">Total Pengeluaran</div>
+            <div class="stat-trend down"><i class="fas fa-arrow-down"></i> Dari semua transaksi</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-warehouse"></i></div>
+            <div class="stat-value" id="statStock">—</div>
+            <div class="stat-label">Total Stok Saat Ini</div>
+            <div class="stat-trend up"><i class="fas fa-check-circle"></i> Semua item</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+            <div class="stat-value" id="statToday">—</div>
+            <div class="stat-label">Transaksi Hari Ini</div>
+            <div class="stat-trend" style="color:#888;"><i class="fas fa-clock"></i> Real-time</div>
+        </div>
+    </div>
+
+    <!-- ─── Monthly Traffic Chart ───────────────────────── -->
+    <div class="chart-container">
+        <div class="chart-header">
+            <span class="chart-title"><i class="fas fa-chart-bar" style="color:var(--gold);margin-right:8px;"></i>Traffic &amp; Pendapatan Bulanan</span>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background:#e2d92c;"></div> Pendapatan
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background:#0fdf5f;"></div> Penerimaan Barang
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background:#e40c0c;"></div> Pengeluaran Barang
+                </div>
+            </div>
+        </div>
+        <canvas id="trafficChart"></canvas>
+    </div>
+
+    <!-- ─── Current Stock Overview ──────────────────────── -->
+    <div class="stock-overview">
+        <div class="stock-overview-header">
+            <h3><i class="fas fa-layer-group" style="color:var(--gold);margin-right:8px;"></i>Stok Saat Ini per Item</h3>
+            <span style="font-size:0.8rem;color:#555;">
+                <span style="color:#f1c40f;">●</span> Rendah (&lt;20)&nbsp;&nbsp;
+                <span style="color:var(--red);">●</span> Kritis (&lt;10)
+            </span>
+        </div>
+        <div class="stock-overview-body" id="stockOverviewBody"></div>
+    </div>
+
+    <!-- ─── Input / Output Forms ────────────────────────── -->
+    <div class="stock-forms">
+
+        <!-- Penerimaan Barang -->
+        <div class="stock-form-card in-form">
+            <h3><i class="fas fa-arrow-circle-down"></i> Penerimaan Barang</h3>
+            <div class="form-row">
+                <label>Nama Barang</label>
+                <select id="receiptItem">
+                    <option value="">— Pilih Menu —</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Kuantitas (Porsi)</label>
+                <input type="number" id="receiptQty" placeholder="Contoh: 50" min="1" max="9999" />
+            </div>
+            <div class="form-row">
+                <label>Operator</label>
+                <input type="text" id="receiptOperator" placeholder="Nama operator penerimaan" />
+            </div>
+            <div class="form-row">
+                <label>Keterangan</label>
+                <input type="text" id="receiptNote" placeholder="Misal: Restock dari supplier" />
+            </div>
+            <button class="btn-stock btn-stock-in" id="btnReceipt" type="button">
+                <i class="fas fa-save"></i> Simpan Penerimaan
+            </button>
+        </div>
+
+        <!-- Pengeluaran Barang -->
+        <div class="stock-form-card out-form">
+            <h3><i class="fas fa-arrow-circle-up"></i> Pengeluaran Barang</h3>
+            <div class="form-row">
+                <label>Nama Barang</label>
+                <select id="issueItem">
+                    <option value="">— Pilih Menu —</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Kuantitas (Porsi)</label>
+                <input type="number" id="issueQty" placeholder="Contoh: 10" min="1" max="9999" />
+            </div>
+            <div class="form-row">
+                <label>Operator</label>
+                <input type="text" id="issueOperator" placeholder="Nama operator pengeluaran" />
+            </div>
+            <div class="form-row">
+                <label>Alasan Pengeluaran</label>
+                <input type="text" id="issueNote" placeholder="Misal: Penjualan shift pagi" />
+            </div>
+            <button class="btn-stock btn-stock-out" id="btnIssue" type="button">
+                <i class="fas fa-save"></i> Simpan Pengeluaran
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ─── Transaction Log Table ────────────────────────── -->
+    <div class="inventory-table-wrap">
+        <div class="table-header">
+            <span class="table-title">
+                <i class="fas fa-clipboard-list" style="color:var(--gold);margin-right:8px;"></i>History Stock
+            </span>
+            <input type="text" class="table-search" id="tableSearch" placeholder="Cari nama barang / petugas..." />
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tgl / Waktu</th>
+                    <th>Nama Barang</th>
+                    <th>Jenis Transaksi</th>
+                    <th>Kuantitas</th>
+                    <th>Petugas</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody id="logTableBody">
+                <tr>
+                    <td colspan="6" style="text-align:center;color:#555;padding:32px;">
+                        Belum ada transaksi. Mulai tambah atau catat stok di atas.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="premium-footer">
+    <div class="footer-grid">
+
+        <div class="footer-col brand-col">
+            <div class="footer-logo">ZESTIFY <span>CAFÉ</span></div>
+            <p class="footer-desc">Premium Coffee &amp; Fine Dining<br />Kualitas terbaik, rasa autentik.</p>
+            <div class="footer-social">
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">I</div>
+                        <div class="social-flip-back"><i class="fab fa-instagram"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Instagram</div>
+                </div>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">F</div>
+                        <div class="social-flip-back"><i class="fab fa-facebook-f"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">Facebook</div>
+                </div>
+                <a href="https://www.linkedin.com/in/co-founder-muhamad-anif-18b52139b/" target="_blank" rel="noopener noreferrer" class="social-link-wrapper">
+                    <div class="social-flip-wrapper">
+                        <div class="social-flip-inner">
+                            <div class="social-flip-front">L</div>
+                            <div class="social-flip-back"><i class="fab fa-linkedin-in"></i></div>
+                        </div>
+                        <div class="social-flip-tooltip">LinkedIn</div>
+                    </div>
+                </a>
+                <div class="social-flip-wrapper">
+                    <div class="social-flip-inner">
+                        <div class="social-flip-front">Y</div>
+                        <div class="social-flip-back"><i class="fab fa-youtube"></i></div>
+                    </div>
+                    <div class="social-flip-tooltip">YouTube</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-col contact-col">
+            <h4>Hubungi Kami</h4>
+            <a href="mailto:Cafezestify@gmail.com" class="contact-link">
+                <i class="fas fa-envelope"></i><span>Cafezestify@gmail.com</span>
+            </a>
+            <a href="tel:+6281235445015" class="contact-link">
+                <i class="fas fa-phone-alt"></i><span>+62 812-354-450-15</span>
+            </a>
+            <div class="contact-link">
+                <i class="fas fa-map-pin"></i><span>Jl. Sudirman No. 88, Jakarta</span>
+            </div>
+        </div>
+
+        <div class="footer-col hours-col">
+            <h4>Jam Buka</h4>
+            <ul>
+                <li><span>Senin – Rabu</span><span>06:30 – 15:40</span></li>
+                <li><span>Kamis – Sabtu</span><span>14:00 – 23:00</span></li>
+                <li class="closed"><span>Minggu</span><span>Libur</span></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2027 <strong>Cafe Zestify</strong> &middot; All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart" style="color:var(--gold);"></i> for coffee lovers.</p>
+    </div>
+</footer>
+
+<!-- Toast -->
+<div id="globalToast" class="toast"></div>
+
+<script src="JS/Cart.js"></script>
+<script src="JS/Inventory.js"></script>
+<script>
+/* Stock overview cards rendered after Inventory.js loads */
+document.addEventListener('DOMContentLoaded', function () {
+    renderStockOverview();
+});
+
+function renderStockOverview() {
+    var body = document.getElementById('stockOverviewBody');
+    if (!body) return;
+    var inv = loadInventory();
+    body.innerHTML = '';
+    inv.forEach(function (item) {
+        var div = document.createElement('div');
+        div.className = 'stock-mini-card';
+        var nameEl = document.createElement('div');
+        nameEl.className = 'stock-mini-name';
+        nameEl.textContent = item.name;
+        var qtyEl = document.createElement('div');
+        qtyEl.className = 'stock-mini-qty' + (item.stock < 10 ? ' critical' : item.stock < 20 ? ' low' : '');
+        qtyEl.textContent = item.stock + ' porsi';
+        div.appendChild(nameEl);
+        div.appendChild(qtyEl);
+        body.appendChild(div);
+    });
+}
+</script>
+</body>
+</html>

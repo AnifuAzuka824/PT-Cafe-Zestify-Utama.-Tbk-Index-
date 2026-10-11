@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Zestify Café — Keranjang belanja &amp; pilih metode pembayaran: Cash, QRIS, atau Kartu Debit." />
+    <title>Zestify Café | Pesanan &amp; Pembayaran</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/Main.css" />
+    <link rel="stylesheet" href="CSS/Payment.css" />
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+    <h1>ZESTIFY CAFÉ</h1>
+    <ul>
+        <li><a href="Dashboard Zestify.html">Home</a></li>
+        <li><a href="Dashboard Zestify.html#menu">Menu</a></li>
+        <li><a href="Dashboard Zestify.html#portfolio">Portofolio</a></li>
+        <li><a href="Inventory Zestify.html">Inventori</a></li>
+        <li><a href="Akun Zestify.html">Akun</a></li>
+        <li><a href="Akun Zestify.html#cs">Customer Service</a></li>
+    </ul>
+</nav>
+
+<!-- ===== PAYMENT SECTION ===== -->
+<section class="order-payment-wrap">
+    <div style="max-width:1400px;margin:0 auto;">
+        <div class="section-title">Pesanan &amp; Pembayaran</div>
+
+        <div class="two-columns">
+
+            <!-- LEFT: Cart items -->
+            <div class="cart-section">
+                <h3 style="margin-bottom:18px;color:var(--gold);display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-shopping-bag"></i> Keranjang Belanja
+                </h3>
+                <div id="cart-list" class="cart-items">
+                    <div class="empty-cart-msg">Keranjang kosong. Tambah menu favorit Anda!</div>
+                </div>
+                <div id="cart-total" class="cart-total" style="display:none;">Total: Rp0</div>
+                <a href="Dashboard Zestify.html#menu" class="back-to-menu">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu
+                </a>
+            </div>
+
+            <!-- RIGHT: Payment methods -->
+            <div class="payment-methods-section">
+                <h3><i class="fas fa-wallet"></i> Metode Pembayaran</h3>
+
+                <div id="payment-options">
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="CASH" />
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Tunai (Cash)</span>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="QRIS" />
+                            <i class="fas fa-qrcode"></i>
+                            <span>QRIS</span>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="DEBIT_BCA" />
+                            <i class="fas fa-credit-card"></i>
+                            <span>Kartu Debit BCA</span>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="DEBIT_MANDIRI" />
+                            <i class="fas fa-university"></i>
+                            <span>Kartu Debit Mandiri</span>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="TRANSFER" />
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transfer Bank</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-checkout" id="checkoutBtn" type="button">
+                    <i class="fas fa-lock"></i>&nbsp; Bayar Sekarang
+                </button>
+
+                <p class="security-note">
+                    <i class="fas fa-shield-alt"></i>
+                    Transaksi aman &amp; terenkripsi. Mendukung QRIS &amp; virtual account.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== RECEIPT MODAL ===== -->
+<div id="receiptModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+
+        <div class="modal-success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2 class="modal-title" id="modalTitle">Pembayaran Berhasil!</h2>
+        <p class="modal-subtitle">Terima kasih — struk Anda siap dicetak atau disimpan.</p>
+
+        <!-- Receipt paper (printed via @media print) -->
+        <div class="receipt" id="receiptContent"></div>
+
+        <div class="modal-actions">
+            <button class="btn-print" id="printReceiptBtn" type="button">
+                <i class="fas fa-print"></i> Cetak Struk
+            </button>
+            <button class="btn-close-modal" id="closeModalBtn" type="button">
+                Kembali ke Menu
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="globalToast" class="toast"></div>
+
+<!-- Footer -->
+<footer class="page-footer">
+    <p>Nikmati kemudahan pembayaran digital di Zestify Café.</p>
+    <p>&copy; 2027 <strong style="color:var(--gold);">Cafe Zestify</strong> &mdash; Premium Taste, Modern Payment.</p>
+</footer>
+
+<script src="JS/Cart.js"></script>
+<script src="JS/Payment.js"></script>
+</body>
+</html>

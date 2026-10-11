@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Zestify Café | Premium Coffee & Dining</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A0A0A;
+      color: #EDEDED;
+      scroll-behavior: smooth;
+    }
+    :root {
+      --gold: #D4AF37;
+      --card-bg: #131313;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 8px; }
+
+    nav {
+      background: #000000dd;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--gold);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav h1 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #F9E076, #D4AF37);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav ul li a { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: 0.2s; }
+    nav ul li a:hover { color: var(--gold); }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(107deg, #000000cc, #0a0a0acc), url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=2000') center/cover no-repeat;
+      background-blend-mode: overlay;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #FFF, var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p { font-size: 1.2rem; margin-top: 16px; color: #ccc; max-width: 700px; margin: 16px auto 0; }
+
+    section { padding: 80px 5%; }
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 48px;
+      color: var(--gold);
+      position: relative;
+    }
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: var(--gold);
+      margin: 12px auto 0;
+      border-radius: 4px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 32px;
+    }
+    .menu-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      border: 1px solid #2a2a2a;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .menu-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+    }
+    .menu-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .menu-card:hover .menu-img {
+      transform: scale(1.03);
+    }
+    .menu-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin: 16px 20px 8px;
+    }
+    .menu-desc {
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #bcbcbc;
+      margin: 0 20px 12px;
+    }
+    .price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f5e6b0;
+      margin: 0 20px 12px;
+    }
+    .price s {
+      font-size: 0.9rem;
+      color: #888;
+      margin-right: 8px;
+    }
+    .btn-add {
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      padding: 10px;
+      width: calc(100% - 40px);
+      margin: 0 20px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .btn-add:hover {
+      background: var(--gold);
+      color: #0A0A0A;
+    }
+
+    /* Ringkasan Keranjang (opsional) */
+    .cart-summary {
+      background: #0e0e0e;
+      border-radius: 28px;
+      padding: 15px 25px;
+      margin: 30px auto 0;
+      max-width: 500px;
+      text-align: center;
+      border: 1px solid #2c2c2c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .cart-summary-info {
+      font-size: 1rem;
+    }
+    .cart-summary-info span {
+      color: var(--gold);
+      font-weight: bold;
+    }
+    .btn-payment-redirect {
+      background: var(--gold);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .btn-payment-redirect:hover {
+      background: #e5c158;
+      transform: scale(0.98);
+    }
+
+    .portfolio-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; margin-top: 20px; }
+    .porto-card {
+      background: #111; border-radius: 28px; padding: 28px; max-width: 320px;
+      text-align: center; border: 1px solid #2a2a2a;
+    }
+    .porto-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 18px; }
+    .company-story { max-width: 780px; margin: 0 auto; text-align: center; line-height: 1.6; color: #cdcdcd; }
+
+    .login-section, .cs-section { background: #0c0c0c; border-top: 1px solid #222; }
+    .login-form, .cs-form { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    .login-form input, .cs-form input, .cs-form textarea {
+      background: #1e1e1e; border: 1px solid #333; padding: 14px 18px;
+      border-radius: 40px; color: white; font-family: inherit;
+    }
+    .login-form button, .cs-form button { background: var(--gold); border: none; padding: 12px; border-radius: 40px; font-weight: bold; cursor: pointer; }
+
+    .premium-footer {
+  background: #0a0a0a;
+  background-image: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
+  border-top: 2px solid rgba(212, 175, 55, 0.25);
+  padding: 40px 5% 20px;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px;
+}
+
+/* Garis emas berdenyut di atas */
+.premium-footer::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  animation: goldPulse 3s ease-in-out infinite;
+}
+@keyframes goldPulse {
+  0% { opacity: 0.2; transform: scaleX(0.8); }
+  50% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0.2; transform: scaleX(0.8); }
+}
+
+/* GRID 3 KOLOM */
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr 1.2fr;
+  gap: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ===== KOLOM KIRI ===== */
+.footer-left .contact-wrapper {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+/* Medsos Vertikal */
+.social-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.social-vertical a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #bbb;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+}
+.social-vertical a:hover {
+  background: #D4AF37;
+  border-color: #D4AF37;
+  color: #0a0a0a;
+  transform: translateY(-4px) rotate(6deg);
+  box-shadow: 0 10px 24px -8px rgba(212, 175, 55, 0.5);
+}
+
+/* Informasi Kontak (di samping medsos) */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+}
+.contact-item i {
+  color: #D4AF37;
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+  margin-top: 2px;
+  transition: transform 0.3s ease;
+}
+.contact-item:hover {
+  background: rgba(212, 175, 55, 0.06);
+  border-color: rgba(212, 175, 55, 0.15);
+  transform: translateX(4px);
+}
+.contact-item:hover i {
+  transform: scale(1.15) rotate(-4deg);
+  color: #F9E076;
+}
+
+/* Alamat cabang */
+.address-item .address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.address-item .address-list span {
+  line-height: 1.5;
+  color: #bbb;
+  font-size: 0.85rem;
+}
+.address-item .address-list strong {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+/* ===== KOLOM TENGAH (Brand) ===== */
+.footer-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #F9E076, #D4AF37);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.2;
+}
+.footer-logo span {
+  font-weight: 300;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+}
+.footer-tagline {
+  color: #888;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ===== KOLOM KANAN (Jam Buka) ===== */
+.footer-right h4 {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+}
+.footer-right h4::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+.hours-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: #bbb;
+  font-size: 0.9rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
+}
+.hours-list li span:last-child {
+  color: #D4AF37;
+  font-weight: 500;
+}
+.hours-list li.closed span:last-child {
+  color: #e74c3c;
+  font-weight: 600;
+}
+.hours-list li.note {
+  border-bottom: none;
+  font-size: 0.75rem;
+  color: #888;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+/* ===== FOOTER BAWAH ===== */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: #666;
+}
+.footer-bottom strong {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 820px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .footer-center {
+    grid-column: span 2;
+    order: -1;
+  }
+  .footer-left, .footer-right {
+    grid-column: span 1;
+  }
+}
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .footer-center {
+    grid-column: span 1;
+    order: 0;
+  }
+  .footer-left, .footer-right {
+    grid-column: span 1;
+  }
+  .footer-left .contact-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .social-vertical {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .contact-info {
+    width: 100%;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-logo {
+    font-size: 1.5rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <h1>ZESTIFY CAFÉ</h1>
+  <ul>
+    <li><a href="#home">Home Page</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="File%20Payment%20zestify.html">Checkout</a></li>
+    <li><a href="#portfolio">Portofolio</a></li>
+    <li><a href="#login">Account</a></li>
+    <li><a href="#cs">Customer Service</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <h2>Refined Indulgence</h2>
+  <p>Menu berkualitas tinggi, bahan terbaik, serta kenyamanan pembayaran digital modern. Nikmati pengalaman kafe premium dengan sentuhan otentik.</p>
+</section>
+
+<section id="menu">
+  <div class="section-title">Signature Menu</div>
+  <div class="menu-grid" id="menu-container"></div>
+  
+  <!-- Ringkasan Keranjang -->``
+  <div id="cartSummary" class="cart-summary" style="display: none;">
+    <div class="cart-summary-info">
+      🛒 <span id="cartCount">0</span> item | Total: <span id="cartTotalPrice">Rp0</span>
+    </div>
+    <button id="goToPaymentBtn" class="btn-payment-redirect">Proses Pembayaran →</button>
+  </div>
+</section>
+
+<section id="portfolio" style="background: #0a0a0a;">
+  <div class="section-title">Portofolio Perusahaan</div>
+  <div class="company-story">
+    <p>PT Zestify Café didirikan pada tahun 2022 oleh pecinta kuliner, barista profesional, dan investor sukses. Kami menyediakan fine-casual dining dengan harga terjangkau. Setiap menu disesuaikan dengan selera lokal & internasional.</p>
+    <br>
+    <p>📍 Cabang utama di Jakarta & Bali, telah melayani 15.000+ pelanggan, bekerja sama dengan 30+ supplier lokal, dan meraih penghargaan “Best Emerging Café 2024” dari Culinary Digest.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="porto-card"><i class="fas fa-trophy"></i><h4>Penghargaan</h4><p>Indonesia Coffee Champion 2025<br>Best Dessert Innovation 2026</p></div>
+    <div class="porto-card"><i class="fas fa-handshake"></i><h4>Mitra Strategis</h4><p>Farm to Table, Ubud Organik, Kopi Nusantara, dan 25+ UMKM lokal.</p></div>
+    <div class="porto-card"><i class="fas fa-chart-line"></i><h4>Ekspansi</h4><p>4 cabang beroperasi, 24/7 di Surabaya, Jakarta, Kudus, dan Bali.</p></div>
+  </div>
+</section>
+
+<section id="login" class="login-section">
+  <div class="section-title">Login Account VIP</div>
+  <div class="login-form">
+    <input type="text" id="loginUsername" placeholder="Username / Email"/>
+    <input type="password" id="loginPassword" placeholder="Kata Sandi"/>
+    <button id="loginBtn">Masuk ke Zestify</button>
+  </div>
+</section>
+
+<section id="cs" class="cs-section">
+  <div class="section-title">Customer Service</div>
+  <div class="cs-form">
+    <input type="text" id="csName" placeholder="Nama Anda" required/>
+    <input type="email" id="csEmail" placeholder="Email" required/>
+    <textarea id="csMessage" rows="4" placeholder="Pertanyaan, pesan khusus, atau reservasi..." style="border-radius: 24px;"></textarea>
+    <button id="sendCsBtn">Kirim Pesan</button>
+  </div>
+</section>
+
+<footer class="premium-footer">
+
+  <!-- ===== GRID 3 KOLOM ===== -->
+  <div class="footer-grid">
+
+    <!-- ===== KOLOM KIRI: Hubungi Kami ===== -->
+    <div class="footer-col footer-left">
+      <div class="contact-wrapper">
+        <!-- Medsos Vertikal (di kiri) -->
+        <div class="social-vertical">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+
+        <!-- Info Kontak (di samping kanan medsos) -->
+        <div class="contact-info">
+          <a href="mailto:Cafezestity@gmail.com" class="contact-item">
+            <i class="fas fa-envelope"></i> Cafezestity@gmail.com
+          </a>
+          <a href="tel:+6281235445015" class="contact-item">
+            <i class="fas fa-phone-alt"></i> +62 812-354-450-15
+          </a>
+          <div class="contact-item address-item">
+            <i class="fas fa-store"></i>
+            <div class="address-list">
+              <span><strong>Kudus</strong> (Utama) · Jl. Kudus No. 1</span>
+              <span><strong>Jakarta</strong> · Jl. Sudirman No. 88</span>
+              <span><strong>Bali</strong> · Jl. Pantai Kuta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== KOLOM TENGAH: Brand ===== -->
+    <div class="footer-col footer-center">
+      <div class="footer-logo">ZESTIFY <span>CAFÉ</span></div>
+      <p class="footer-tagline">Premium Coffee & Fine Dining</p>
+    </div>
+
+    <!-- ===== KOLOM KANAN: Jam Buka ===== -->
+    <div class="footer-col footer-right">
+      <h4>Jam Buka</h4>
+      <ul class="hours-list">
+        <li><span>Senin - Rabu</span> <span>06.40 – 14.30</span></li>
+        <li><span>Kamis - Sabtu</span> <span>13.30 – 23.45</span></li>
+        <li class="closed"><span>Minggu</span> <span>Libur</span></li>
+        <li class="note"><span colspan="2">*Libur tanggal merah mengikuti</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER BAWAH ===== -->
+  <div class="footer-bottom">
+    <p>&copy; 2027 <strong>Cafe Zestify</strong> · All rights reserved</p>
+    <p>Made with <i class="fas fa-heart" style="color: #D4AF37;"></i> for coffee lovers</p>
+  </div>
+
+</footer>
+
+<script>
+  // Data produk (gunakan angka biasa, bukan titik)
+  const products = [
+    { id: 1, name: "Avocado Toast", price: 50000, originalPrice: 90000, desc: "Golden artisan sourdough, loaded with velvety smashed avocado, topped with fresh microgreens, bright lemon zest.", image: "https://www.orchidsandsweettea.com/wp-content/uploads/2022/07/Avocado-Toast-6-of-7-e1658127792371.jpg" },
+    { id: 2, name: "Pasta Truffle", price: 80000, originalPrice: 185000, desc: "Fettuccine homemade, saus truffle hitam, jamur shiitake & parmesan asli. Aroma dan rasa mewah.", image: "https://www.wenthere8this.com/wp-content/uploads/2023/11/black-truffle-pasta-11-1.jpg" },
+    { id: 3, name: "Matcha Latte", price: 45000, originalPrice: 85000, desc: "Matcha ceremonial grade asal Uji, dipadukan dengan susu oat barista. Smooth & earthy.", image: "data:image/jpeg;base64,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" },
+    { id: 4, name: "Cold Brew", price: 45000, originalPrice: 66000, desc: "Single origin Sumatra, cold drip 24 jam, subtle rasa coklat & buah kering.", image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format" },
+    { id: 5, name: "Salmon Croissant", price: 78000, originalPrice: 115000, desc: "Croissant mentega flaky, smoked salmon, cream cheese dill, caper & selada rocket.", image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=600&auto=format" },
+    { id: 6, name: "Berry Hibiscus", price: 42000, originalPrice: 58000, desc: "Infused bunga sepatu, mixed berry, soda, dan sentuhan madu. Non-kafein menyegarkan.", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&auto=format" },
+    { id: 7, name: "Beef Wellington Bowl", price: 150000, originalPrice: 385000, desc: "Tenderloin beef dengan lapisan jamur duxelles & puff pastry, disajikan dengan mashed potato dan red wine jus.", image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format" },
+    { id: 8, name: "Fried Rice Truffle", price: 85000, originalPrice: 95000, desc: "Nasi goreng kampung dengan minyak truffle hitam, telur mata sapi, udang panggang, dan kerupuk kulit.", image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600&auto=format" },
+    { id: 9, name: "Smashed Avo Burger", price: 75000, originalPrice: 110000, desc: "Plant-based patty, alpukat smashed, smoked cheese, salsa verde, dan brioche bun.", image: "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=600&auto=format" },
+    { id: 10, name: "Kyoto Dirty Matcha", price: 55000, originalPrice: 80000, desc: "Double shot espresso + matcha ceremonial grade + susu oat, menciptakan layer rasa pahit manis.", image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&auto=format" },
+    { id: 11, name: "Iced Lychee Rose", price: 48000, originalPrice: 65000, desc: "Lychee puree, rose syrup, soda, dan infused rosemary. Segar dan estetik.", image: "https://empressgin.com/wp-content/uploads/2023/09/Lychee-Rose-Gin-Spritz-foodie_renee.webp" },
+    { id: 12, name: "Churros Ice Cream", price: 52000, originalPrice: 75000, desc: "Churros homemade renyah, dilapisi gula kayu manis, disajikan dengan es krim vanilla bean & cocolan coklat.", image: "https://butternutbakeryblog.com/wp-content/uploads/2018/07/churro-ice-cream-scooped-683x1024.jpg" }
+  ];
+
+  let cart = [];
+
+  // ========== FUNGSI LOCALSTORAGE ==========
+  function saveCartToStorage() {
+    localStorage.setItem('zestifyCart', JSON.stringify(cart));
+  }
+
+  function loadCartFromStorage() {
+    const stored = localStorage.getItem('zestifyCart');
+    if (stored) cart = JSON.parse(stored);
+    else cart = [];
+    updateCartSummary(); // tampilkan ringkasan keranjang
+  }
+
+  // Update ringkasan keranjang di bawah menu
+  function updateCartSummary() {
+    const summaryDiv = document.getElementById('cartSummary');
+    const countSpan = document.getElementById('cartCount');
+    const totalSpan = document.getElementById('cartTotalPrice');
+    if (!summaryDiv) return;
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    if (cart.length === 0) {
+      summaryDiv.style.display = 'none';
+    } else {
+      summaryDiv.style.display = 'flex';
+      countSpan.textContent = totalItems;
+      totalSpan.textContent = `Rp${totalPrice.toLocaleString()}`;
+    }
+  }
+
+  // ========== FUNGSI KERANJANG ==========
+  function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    const existing = cart.find(item => item.id === productId);
+    if (existing) existing.quantity++;
+    else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+    saveCartToStorage();
+    updateCartSummary();
+    // Notifikasi singkat (opsional)
+    // alert(`${product.name} ditambahkan ke keranjang`);
+  }
+
+  // ========== RENDER MENU ==========
+  function renderMenu() {
+    const container = document.getElementById('menu-container');
+    if (!container) return;
+    container.innerHTML = '';
+    products.forEach(prod => {
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}" class="menu-img" loading="lazy">
+        <h3>${prod.name}</h3>
+        <div class="menu-desc">${prod.desc}</div>
+        <div class="price"><s>Rp${prod.originalPrice.toLocaleString()}</s> Rp${prod.price.toLocaleString()}</div>
+        <button class="btn-add" data-id="${prod.id}">+ Tambah ke Keranjang</button>
+      `;
+      container.appendChild(card);
+    });
+    document.querySelectorAll('.btn-add').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        addToCart(id);
+      });
+    });
+  }
+
+  // Redirect ke halaman payment
+  function initPaymentRedirect() {
+    const goBtn = document.getElementById('goToPaymentBtn');
+    if (goBtn) {
+      goBtn.addEventListener('click', () => {
+        if (cart.length === 0) alert("Keranjang kosong. Silakan tambah menu dulu.");
+        else window.location.href = 'File%20Payment%20zestify.html';
+      });
+    }
+  }
+
+  // ========== INITIALIZATION ==========
+  document.addEventListener('DOMContentLoaded', () => {
+    loadCartFromStorage();
+    renderMenu();
+    initPaymentRedirect();
+
+    // Login & CS (fungsi asli)
+    document.getElementById('loginBtn')?.addEventListener('click', () => {
+      const user = document.getElementById('loginUsername')?.value.trim();
+      alert(user ? `Selamat datang, ${user}!` : "Masukkan username untuk login demo");
+    });
+    document.getElementById('sendCsBtn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('csName')?.value;
+      const email = document.getElementById('csEmail')?.value;
+      const msg = document.getElementById('csMessage')?.value;
+      if (!name || !email || !msg) alert("Harap lengkapi data.");
+      else alert(`Pesan terkirim! Tim CS akan membalas ke ${email}.`);
+    });
+
+    // Smooth scroll untuk anchor
+    document.querySelectorAll('nav a[href^="#"], a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const hash = this.getAttribute('href');
+        if (hash && hash.startsWith('#')) {
+          const target = document.querySelector(hash);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
